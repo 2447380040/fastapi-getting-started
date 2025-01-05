@@ -24,7 +24,7 @@ async def post_data(request: Request):
 @app.get("/tts")
 async def tts_route(t: str):
     communicate = edge_tts.Communicate(t, "zh-CN-XiaoxiaoNeural")  # 使用edge-tts生成TTS
-    audio_file = "output.mp3"
+    audio_file = "/tmp/output.mp3"
     await communicate.save(audio_file)  # 保存为音频文件
     return FileResponse(audio_file, media_type="audio/mpeg")  # 返回音频文件
 
