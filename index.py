@@ -4,7 +4,7 @@ import asyncio
 from typing import Optional
 import edge_tts
 import os
-
+import tempfile
 app = FastAPI()
 
 @app.get("/")
@@ -24,7 +24,8 @@ async def post_data(request: Request):
 @app.get("/tts")
 async def tts_route(t: str):
     communicate = edge_tts.Communicate(t, "zh-CN-XiaoxiaoNeural")  # 使用edge-tts生成TTS
-    audio_file = "/tmp/output.mp3"
+    temp_dir = tempfile.gettempdir()
+    audio_file = os.path.join(temp_dir, 'output.mp3')
     await communicate.save(audio_file)  # 保存为音频文件
     return FileResponse(audio_file, media_type="audio/mpeg")  # 返回音频文件
 
